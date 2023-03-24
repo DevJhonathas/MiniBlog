@@ -32,3 +32,17 @@
     background-color: #000;
     color: #fff;
 }
+
+
+@media (max-width: 601px){
+    .brand{
+        font-size: 0.9em;
+    }
+    .link_list li a{
+        padding: .3em .1em;
+    }
+
+    li{
+        font-size: 0.7em;
+    }
+}

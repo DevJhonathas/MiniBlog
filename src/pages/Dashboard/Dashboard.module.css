@@ -56,3 +56,21 @@
     width: 100px;
     font-size: 0.8em;
 }
+
+
+@media (max-width: 601px){
+    .post_row a{
+        display: flex;
+        margin: 0 5px;
+        height: 20px;
+        width:50px;
+        font-size: 0.7em;
+    }
+    .post_row button{
+        display: flex;
+        margin: 0 5px;
+        height: 30px;
+        width: 112px;
+        font-size: 0.7em;
+    }
+}

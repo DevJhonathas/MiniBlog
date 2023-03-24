@@ -10,3 +10,14 @@
     color: #aaa;
     margin-bottom: 2em;
 }
+
+/* form styles */
+
+
+  
+@media (max-width: 601px){
+    form{
+        max-width: 80%;
+        margin: 0 auto;
+      }
+}

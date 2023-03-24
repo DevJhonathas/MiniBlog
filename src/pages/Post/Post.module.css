@@ -3,7 +3,7 @@
 }
 
 .post_container img{
-    max-width: 1050px;
+    width: 1050px;
 }
 
 .post_container h3{
@@ -21,4 +21,11 @@
 
 .tags span{
     font-weight: bold;
+}
+
+
+@media (max-width: 601px){
+    .post_container img{
+        max-width: 400px;
+    }
 }
