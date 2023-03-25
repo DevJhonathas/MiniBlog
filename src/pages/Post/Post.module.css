@@ -23,9 +23,35 @@
     font-weight: bold;
 }
 
+@media (max-width: 1024px){
+    .post_container img{
+        max-width: 800px;
+    }
+}
+
+@media (max-width: 768px){
+    .post_container img{
+        max-width: 600px;
+    }
+}
 
 @media (max-width: 601px){
     .post_container img{
         max-width: 400px;
+    }
+}
+
+@media (max-width: 375px){
+    .post_container img{
+        max-width: 350px;
+    }
+    .post_container h1{
+        font-size: 1.5em;
+    }
+}
+
+@media (max-width: 320px){
+    .post_container img{
+        max-width: 300px;
     }
 }

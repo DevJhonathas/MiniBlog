@@ -21,3 +21,15 @@
         margin: 0 auto;
       }
 }
+
+@media (max-width: 425px){
+    .create_post h2{
+        font-size: 1.5em;
+      }
+}
+
+@media (max-width: 320px){
+    .create_post p{
+        font-size: .8em;
+      }
+}
