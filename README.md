@@ -11,3 +11,4 @@ Criar um blog com uso de React.
 5. Autenticação.
 
 
+Link do site: https://miniblogjohnny.netlify.app
