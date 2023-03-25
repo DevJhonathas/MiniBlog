@@ -46,3 +46,16 @@
         font-size: 0.7em;
     }
 }
+
+@media (max-width: 419px){
+    .brand{
+        font-size: 0.7em;
+    }
+    .link_list li a{
+        padding: .3em .1em;
+    }
+
+    li{
+        font-size: 0.6em;
+    }
+}

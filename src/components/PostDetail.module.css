@@ -36,3 +36,16 @@
         max-width: 400px;
     }
 }
+
+@media (max-width: 419px){
+    .post_detail img{
+        max-width: 300px;
+    }
+    
+    .post_detail p{
+        font-size: .8em;
+    }
+    .post_detail h2{
+        font-size: .9em;
+    }
+}
