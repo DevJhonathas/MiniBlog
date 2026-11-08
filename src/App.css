@@ -1,4 +1,13 @@
-.container{
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1;
   min-height: 60vh;
-  margin-bottom: 5em;
+  margin-bottom: 0;
+  padding-bottom: 5em;
+  box-sizing: border-box;
 }

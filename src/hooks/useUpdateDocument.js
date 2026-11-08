@@ -1,9 +1,9 @@
-import { useState, useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import { db } from "../firebase/config";
 import { updateDoc, doc } from "firebase/firestore";
 
 const initialState = {
-  loading: null,
+  loading: false,
   error: null,
 };
 
@@ -11,10 +11,13 @@ const updateReducer = (state, action) => {
   switch (action.type) {
     case "LOADING":
       return { loading: true, error: null };
+
     case "UPDATE_DOC":
       return { loading: false, error: null };
+
     case "ERROR":
       return { loading: false, error: action.payload };
+
     default:
       return state;
   }
@@ -22,37 +25,42 @@ const updateReducer = (state, action) => {
 
 export const useUpdateDocument = (docCollection) => {
   const [response, dispatch] = useReducer(updateReducer, initialState);
+  const isMounted = useRef(false);
 
-  // deal with memory leak
-  const [cancelled, setCancelled] = useState(false);
+  useEffect(() => {
+    isMounted.current = true;
 
-  const checkCancelBeforeDispatch = (action) => {
-    if (!cancelled) {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  const dispatchIfMounted = (action) => {
+    if (isMounted.current) {
       dispatch(action);
     }
   };
 
   const updateDocument = async (id, data) => {
-    checkCancelBeforeDispatch({ type: "LOADING" });
+    dispatchIfMounted({ type: "LOADING" });
 
     try {
+      const docRef = doc(db, docCollection, id);
 
-        const docRef = await doc(db, docCollection, id);
+      await updateDoc(docRef, data);
 
-        const updateDocument = await updateDoc(docRef, data);
+      dispatchIfMounted({ type: "UPDATE_DOC" });
 
-        checkCancelBeforeDispatch({
-            type: "UPDATE_DOC",
-            payload: updateDocument,
-        });
+      return true;
     } catch (error) {
-      checkCancelBeforeDispatch({ type: "ERROR", payload: error.message });
+      dispatchIfMounted({
+        type: "ERROR",
+        payload: error.message || "Não foi possível atualizar a publicação.",
+      });
+
+      throw error;
     }
   };
-
-  useEffect(() => {
-    return () => setCancelled(true);
-  }, []);
 
   return { updateDocument, response };
 };

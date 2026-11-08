@@ -1,44 +1,53 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { db } from "../firebase/config";
-import {
-    doc,
-    getDoc
-} from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 export const useFetchDocument = (docCollection, id) => {
-    const [document, setDocument] = useState(null);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(null);
+  const [document, setDocument] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-   // deal with memory leak
-    const [cancelled, setCancelled] = useState(false);
-  
-    useEffect(() => {
-        async function loadDocument() {
-            if(cancelled) return
-            setLoading(true);
+  useEffect(() => {
+    let active = true;
 
-            try{
-                const docRef = await doc(db, docCollection, id);
-                const docSnap = await getDoc(docRef);
+    const loadDocument = async () => {
+      setLoading(true);
+      setError(null);
+      setDocument(null);
 
-                setDocument(docSnap.data());
+      try {
+        const docRef = doc(db, docCollection, id);
+        const docSnap = await getDoc(docRef);
 
-                setLoading(false);
-            } catch (error){
-                console.log(error);
-                setError(error.message);
+        if (!active) return;
 
-                setLoading(true);
-            }
-        };
+        if (docSnap.exists()) {
+          setDocument({
+            ...docSnap.data(),
+            id: docSnap.id,
+          });
+        } else {
+          setDocument(null);
+          setError("Esta publicação não existe ou foi removida.");
+        }
+      } catch (error) {
+        if (!active) return;
 
-        loadDocument();
-    }, [docCollection, id, cancelled],);
+        setDocument(null);
+        setError(error.message || "Não foi possível carregar a publicação.");
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    };
 
-    useEffect(() => {
-        return () => setCancelled(true);
-    }, []);
+    loadDocument();
 
-    return {document, loading, error};
+    return () => {
+      active = false;
+    };
+  }, [docCollection, id]);
+
+  return { document, loading, error };
 };

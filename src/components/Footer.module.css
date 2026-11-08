@@ -1,14 +1,24 @@
-.footer{
-    height:  250px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #EDF3F6;
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* width: 100%; */
+  margin-top: auto;
+  padding: 1.25rem 1rem;
+  background: #ffffff;
+  border-top: 1px solid #e8eee9;
 }
 
-@media (max-width: 419px){
-    .footer h3{
-        font-size: .9em;
-    }
+.footer p {
+  margin: 0;
+  color: #89938d;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+@media (max-width: 400px) {
+  .footer p {
+    font-size: 0.72rem;
+  }
 }

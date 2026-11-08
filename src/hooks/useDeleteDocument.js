@@ -1,20 +1,32 @@
-import { useState, useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import { db } from "../firebase/config";
 import { doc, deleteDoc } from "firebase/firestore";
 
 const initialState = {
-  loading: null,
+  loading: false,
   error: null,
 };
 
 const deleteReducer = (state, action) => {
   switch (action.type) {
     case "LOADING":
-      return { loading: true, error: null };
+      return {
+        loading: true,
+        error: null,
+      };
+
     case "DELETE_DOC":
-      return { loading: false, error: null };
+      return {
+        loading: false,
+        error: null,
+      };
+
     case "ERROR":
-      return { loading: false, error: action.payload };
+      return {
+        loading: false,
+        error: action.payload,
+      };
+
     default:
       return state;
   }
@@ -22,34 +34,40 @@ const deleteReducer = (state, action) => {
 
 export const useDeleteDocument = (docCollection) => {
   const [response, dispatch] = useReducer(deleteReducer, initialState);
+  const isMounted = useRef(false);
 
-  // deal with memory leak
-  const [cancelled, setCancelled] = useState(false);
+  useEffect(() => {
+    isMounted.current = true;
 
-  const checkCancelBeforeDispatch = (action) => {
-    if (!cancelled) {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  const dispatchIfMounted = (action) => {
+    if (isMounted.current) {
       dispatch(action);
     }
   };
 
   const deleteDocument = async (id) => {
-    checkCancelBeforeDispatch({ type: "LOADING" });
+    dispatchIfMounted({ type: "LOADING" });
 
     try {
-        const deleteDocument = await deleteDoc(doc(db, docCollection, id));
+      await deleteDoc(doc(db, docCollection, id));
 
-        checkCancelBeforeDispatch({
-            type: "DELETE_DOC",
-            payload: deleteDocument,
-        });
+      dispatchIfMounted({ type: "DELETE_DOC" });
+
+      return true;
     } catch (error) {
-      checkCancelBeforeDispatch({ type: "ERROR", payload: error.message });
+      dispatchIfMounted({
+        type: "ERROR",
+        payload: error.message,
+      });
+
+      return false;
     }
   };
-
-  useEffect(() => {
-    return () => setCancelled(true);
-  }, []);
 
   return { deleteDocument, response };
 };
