@@ -80,8 +80,6 @@
   outline-offset: 3px;
 }
 
-/* Estrutura do editor */
-
 .editor_layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
@@ -135,8 +133,6 @@
   font-size: 0.7rem;
   font-weight: 700;
 }
-
-/* Formulário */
 
 .form {
   display: flex;
@@ -234,8 +230,6 @@
   font-weight: 600;
 }
 
-/* Erros e ações */
-
 .error_message {
   padding: 0.9rem 1rem;
   border: 1px solid #f1caca;
@@ -293,8 +287,6 @@
   background: #9aafa5;
   cursor: not-allowed;
 }
-
-/* Barra lateral */
 
 .sidebar {
   display: flex;
@@ -435,8 +427,6 @@
   font-size: 0.68rem;
 }
 
-/* Informações e dicas */
-
 .info_card,
 .tip_card {
   padding: 1.2rem;
@@ -495,8 +485,6 @@
   line-height: 1.6;
 }
 
-/* Carregamento e publicação não encontrada */
-
 .loading_state {
   display: flex;
   align-items: center;
@@ -553,8 +541,6 @@
   font-size: 0.88rem;
   line-height: 1.7;
 }
-
-/* Responsividade */
 
 @media (max-width: 900px) {
   .editor_layout {
