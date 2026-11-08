@@ -22,6 +22,10 @@ const About = () => {
           <span>React</span>
           <span>Firebase</span>
           <span>JavaScript</span>
+          <span>React Router</span>
+          <span>Context</span>
+          <span>Hooks</span>
+          <span>Autenticação</span>
         </div>
 
         <div className={styles.creator}>
